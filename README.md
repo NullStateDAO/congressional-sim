@@ -1,10 +1,12 @@
 # Congressional Sim
 
-An informal probe at a question people keep asking half-jokingly: would we be
-better off if AI agents replaced the humans in Congress?
+![Cartoon robots in suits filling a congressional chamber, one at the speaker's podium, with vote tally boards on the walls](robots.png)
 
-That question is too big to answer, so this repo measures one narrow slice of
-it. We give a cheap LLM agent to every member of the 109th through 117th
+Would we be better off if AI agents replaced the humans in Congress?
+
+This repo was a gut check. I had a feeling that congress was so bad they could be replaced by robots. And yes, with super cheap models and a single thinking pass, the agents did better than actual congress. My design was naive and optimized to be cheap so there is still plenty of room to improve. If you're interested, feel free to fork and help me tweak!
+
+We give a cheap LLM agent to every member of the 109th through 117th
 Congresses, hand each agent its member's persona (party, state, district,
 election margin, stated priorities), and ask it to cast one direct yea/nay vote
 on a proposition where national majority opinion was actually measured. No
