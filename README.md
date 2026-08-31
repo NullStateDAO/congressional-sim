@@ -246,19 +246,3 @@ The bundled implementation supports the three actions the launcher uses: list
 SSH keys, create a droplet from a cloud-init payload, and delete droplets. See
 [tools/devops-gateway/README.md](tools/devops-gateway/README.md) for the request
 and result shapes, or to swap in your own via `DEVOPS_GATEWAY`.
-
-## Agent skills
-
-Two [Claude Code](https://claude.com/claude-code) skills ship in
-[.claude/skills/](.claude/skills/), so a coding agent working in this repo knows
-the operational rules without rediscovering them:
-
-- `congressional-sim-local` covers the local path: verify, enqueue, work the
-  queue, finalize, analyze, and what to do when a provider filter permanently
-  refuses a vote.
-- `congressional-sim-cluster` covers the DigitalOcean path: dry-run first, cost
-  cap acknowledgment, key fan-out, cleaning up a failed launch, and the secret
-  handling rules to preserve.
-
-They are plain Markdown and are useful to read directly whether or not you use
-an agent.
