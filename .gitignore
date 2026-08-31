@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+.cluster/*
+!.cluster/.gitkeep
+coverage/
+*.log
+out/

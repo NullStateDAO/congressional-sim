@@ -1,0 +1,14 @@
+[
+  {
+    "id": "automation-grant",
+    "title": "Automation Pilot Grant",
+    "proposal": "Spend $2 million on a one-year automation pilot across three public agencies.",
+    "tradeoffs": ["faster service", "uncertain savings", "worker retraining", "one-year sunset"]
+  },
+  {
+    "id": "data-sharing",
+    "title": "Research Data Sharing",
+    "proposal": "Allow universities to use de-identified service data under audited agreements.",
+    "tradeoffs": ["better research", "privacy risk", "independent audits", "revocable access"]
+  }
+]

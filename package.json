@@ -1,0 +1,53 @@
+{
+  "name": "congressional-sim",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.12.2",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "pnpm typecheck && pnpm test",
+    "infra:up": "docker compose up -d postgres redis minio",
+    "infra:postgres": "docker compose up -d postgres",
+    "infra:redis": "docker compose up -d redis",
+    "infra:s3": "docker compose up -d minio",
+    "infra:down": "docker compose down",
+    "infra:reset": "docker compose down -v",
+    "db:migrate": "tsx src/commands/migrate.ts",
+    "reference:export": "tsx src/commands/export-congressional-reference.ts",
+    "reference:check": "tsx src/commands/check-congressional-reference.ts",
+    "reference:publish": "tsx src/commands/publish-reference.ts",
+    "experiment:enqueue": "tsx src/commands/enqueue.ts",
+    "worker": "tsx src/commands/worker.ts",
+    "status": "tsx src/commands/status.ts",
+    "finalize": "tsx src/commands/finalize.ts",
+    "analyze": "tsx src/commands/analyze.ts",
+    "supervise": "tsx src/commands/supervise.ts",
+    "hello:local": "bash scripts/hello-local.sh",
+    "cluster:launch": "tsx src/commands/cluster-launch.ts",
+    "cluster:enqueue": "tsx src/commands/cluster-enqueue.ts",
+    "cluster:status": "tsx src/commands/cluster-status.ts",
+    "cluster:download": "tsx src/commands/cluster-download.ts",
+    "cluster:destroy": "tsx src/commands/cluster-destroy.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "3.883.0",
+    "bullmq": "5.58.5",
+    "dotenv": "16.6.1",
+    "ioredis": "5.7.0",
+    "pg": "8.16.3",
+    "zod": "4.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.0",
+    "@types/pg": "8.15.5",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2",
+    "vitest": "3.2.4"
+  }
+}

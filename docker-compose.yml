@@ -1,0 +1,71 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sim}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sim-local-only}
+      POSTGRES_DB: ${POSTGRES_DB:-sim_cluster}
+    ports:
+      - "${CONTROL_BIND_IP:-127.0.0.1}:${POSTGRES_PORT:-45432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-redis-local-only}"]
+    ports:
+      - "${CONTROL_BIND_IP:-127.0.0.1}:${REDIS_PORT:-46379}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis-local-only}", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  minio:
+    image: minio/minio:RELEASE.2025-07-23T15-54-02Z
+    restart: unless-stopped
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-sim-minio}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-sim-minio-local-only}
+    ports:
+      - "${CONTROL_BIND_IP:-127.0.0.1}:${MINIO_PORT:-49000}:9000"
+      - "${CONTROL_BIND_IP:-127.0.0.1}:${MINIO_CONSOLE_PORT:-49001}:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  worker:
+    profiles: ["worker"]
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-sim}:${POSTGRES_PASSWORD:-sim-local-only}@postgres:5432/${POSTGRES_DB:-sim_cluster}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis-local-only}@redis:6379
+      S3_ENDPOINT: http://minio:9000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  redis-data:
+  minio-data:

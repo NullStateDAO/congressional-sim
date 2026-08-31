@@ -1,0 +1,20 @@
+[
+  {
+    "id": "builder",
+    "name": "Pragmatic Builder",
+    "priorities": ["fast delivery", "measurable outcomes", "reversibility"],
+    "disposition": "Accepts bounded risk when results can be measured and reversed."
+  },
+  {
+    "id": "steward",
+    "name": "Careful Steward",
+    "priorities": ["reliability", "fairness", "long-term maintenance"],
+    "disposition": "Prefers proven approaches and explicit protections against concentrated harm."
+  },
+  {
+    "id": "explorer",
+    "name": "Curious Explorer",
+    "priorities": ["learning", "optionality", "novel capabilities"],
+    "disposition": "Supports experiments that create useful evidence without locking in one path."
+  }
+]

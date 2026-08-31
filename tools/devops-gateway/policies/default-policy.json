@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "devops-gateway.policy.v1",
+  "maxDefaultCostUsd": 0,
+  "credentialRefs": {
+    "digitalocean/default": ["DIGITALOCEAN_ACCESS_TOKEN", "DO_TOKEN"]
+  },
+  "actions": {
+    "digitalocean.ssh_keys_list": {
+      "risk": "provider_read",
+      "credentialRefs": ["digitalocean/default"],
+      "timeoutMs": 120000
+    },
+    "digitalocean.droplet_run_cloud_init": {
+      "risk": "provider_mutation",
+      "credentialRefs": ["digitalocean/default"],
+      "costCapUsd": 10,
+      "timeoutMs": 900000
+    },
+    "digitalocean.droplets_delete": {
+      "risk": "provider_mutation",
+      "credentialRefs": ["digitalocean/default"],
+      "costCapUsd": 0,
+      "timeoutMs": 300000
+    }
+  }
+}
